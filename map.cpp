@@ -15,11 +15,11 @@
 
 //*** Simulation variables & streams ***//
 
-const int T_end = 20000;
-const int trials = 1;
-double param_start = -20.0;
-double param_end = -20.0;
-const double param_width = 0.2;
+const int T_end = 500;
+const int trials = 20;
+double param_start = -25.0;
+double param_end = 25.0;
+const double param_width = 0.1;
 
 int param = 0;
 int part;
@@ -87,6 +87,7 @@ double phi = 0.;
 double v = 0.1;
 double k_phi = 4.;
 double turn_rate;
+double abs_turn_rate;
 
 
 //*** Functions ***//
@@ -174,14 +175,12 @@ double skew(std::vector<double> input, double dx, double T){
 	double sum1,sum2;
 	sum1 = 0.0;
 	sum2 = 0.0;
-	printf("dx = %f\n",dx);
 	for(unsigned int i = 0; i < input.size()/2; i++){
 		sum1 += input.at(i);
 		sum2 += input.at(i + input.size()/2);
 	}
 	sum1/=T;
 	sum2/=T;
-	printf("SUM = %f\n",sum1+sum2);
 	return sum2-sum1;
 }
 
@@ -195,12 +194,14 @@ void reset_param(){
 	o_avg.resize(0);
 	o_avg.push_back(0.5 * (o_1 + o_2));
 	histo.resize(num_bins);
+	w_11 = param_start + param * param_width;
 	x = 0.;
 	y = 0.;
 	turn_rate = 0.0;
+	abs_turn_rate = 0.0;
 	double rand_angle = 2. * M_PI * distribution(generator) - M_PI;
 	phi = bound(rand_angle);
-	printf("Init\to_1 = %f\to_2 = %f\to_3 = %f\n", o_1, o_2);
+	//printf("Init\to_1 = %f\to_2 = %f\to_3 = %f\n", o_1, o_2);
 }
 
 int main(){
@@ -213,7 +214,6 @@ int main(){
 	setWeight(pasemann);
 	//std::cout << num_param << std::endl;
 	while(w_11<=param_end){
-		param++;
 		for(unsigned int trial = 0; trial < trials; trial++){
 			reset_param();
 			for(unsigned int ts = 0; ts < T_end; ts++){
@@ -237,6 +237,7 @@ int main(){
 				phi += k_phi * (2.*o_avg.back() - 1.);
 				phi = bound(phi);
 				turn_rate += k_phi * (2.*o_avg.back() - 1.);
+				abs_turn_rate += std::abs(k_phi * (2.*o_avg.back() - 1.));
 				//printf("ts = %4u\to = %1.6f\tphi = %2.2f\n", ts, o_avg, phi);
 				pos << ts << " " << x << " " << y << " " << phi << " " <<  k_phi * (2.*o_avg.back() - 1.)<< std::endl;
 
@@ -254,12 +255,12 @@ int main(){
 				part = (num_param/10);
 			if(param%part == 0 && trial == 0)
 				printf("param = %f\ttrial = %u\tout = %4.3f\tmean = %4.3f\tstd = %4.3f\tskew = %4.3f\tturn = %4.3f\n", w_11, trial, o_avg.back(), mean(o_avg), stdev(o_avg), skew(histo, bin_size, T_end), turn_rate/T_end);
-			bifurw << w_11 << " " << o_avg.back() << std::endl;
+			bifurw << w_11 << " " << o_avg.back() << " " << mean(o_avg) << " " << stdev(o_avg) << " " << turn_rate/T_end << " " << abs_turn_rate/T_end<< std::endl;
 		}
 		for(unsigned int i = 0; i < num_bins; i++)
 			hist3d << histo[i]/500. << " ";
 		hist3d << std::endl;
-		w_11 += param_width;
+		param++;
 	}
 	for(unsigned int i = 0; i < num_bins; i++)
 		histw << histo.at(i) << std::endl;
