@@ -14,11 +14,13 @@
 #include <vector>
 
 //*** Simulation variables & streams ***//
+
 const int T_end = 20000;
 const int trials = 1;
 double param_start = -20.0;
 double param_end = -20.0;
 const double param_width = 0.2;
+
 int param = 0;
 int part;
 int num_param = int((param_end - param_start)/param_width) + 1;
@@ -28,6 +30,7 @@ std::ofstream hist3d;
 std::ofstream pos;
 std::ofstream stspace;
 
+
 //*** Random generator for initial values ***//
 int rseed = time(NULL);
 std::default_random_engine generator(rseed);
@@ -36,10 +39,8 @@ std::uniform_real_distribution<double> distribution(0.0,1.0);
 //*** Network variables ***//
 double a_1 = 0.;						//node activities
 double a_2 = 0.;
-double a_3 = 0.;
 double o_1 = distribution(generator);	//node outputs (o = f(a))
 double o_2 = distribution(generator);
-double o_3 = 0.;
 std::vector<double> o_avg;						//average node output
 bool pasemann = true;
 double w_11;
@@ -72,6 +73,7 @@ void setWeight(bool option){
 		}
 	}
 }
+
 
 //*** Histogram variables ***//
 const int num_bins = 100;
@@ -135,13 +137,7 @@ double circle(double input, double T, double K){
 }
 
 double bernshift(double input, double a){
-	if(input == 0.5)
-		input += 0.00001 * (distribution(generator)-0.5);
 	return fmod(a * input, 1.);
-	/*if(input < 1./a)
-		return a * input;
-	else
-		return a * input - 1;*/
 }
 
 double min(double x, double y){
@@ -197,6 +193,7 @@ void reset_param(){
 	a_3 = 0.;
 	o_1 = distribution(generator);
 	o_2 = distribution(generator);
+<<<<<<< HEAD
 	o_3 = 0.;
 	o_avg.resize(0);
 	o_avg.push_back(0.5 * (o_1 + o_2));
@@ -223,21 +220,19 @@ int main(){
 		for(unsigned int trial = 0; trial < trials; trial++){
 			reset_param();
 			for(unsigned int ts = 0; ts < T_end; ts++){
+
 				//A) MAP
 				a_1 = map(b_1, w_11, w_12, o_1, o_2);
 				a_2 = map(b_2, 0., w_21, o_2, o_1);
 				o_1 = sigm(a_1);
 				o_2 = sigm(a_2);
-				/*a_1 = -20. * o_1 + 6. * o_2 - 2.;
-				a_2 = -6. * o_1 + 3.;
-				o_1 = sigm(a_1);
-				o_2 = sigm(a_2);*/
 				//printf("ts = %4u\ta1 = %1.3f\ta2 = %1.3f\ta3 = %1.3f\to1 = %1.3f\to2 = %1.3f\to3 = %1.3f\n", ts, a_1, a_2, a_3, o_1, o_2, o_3);
 				stspace << o_avg.back() << " ";
 				//o_avg = logistic(o_avg, 1.);
 				o_avg.push_back(0.5 * (o_1 + o_2));
 				//o_avg = tent(o_avg, w_11);
 				stspace << o_avg.back() << std::endl;
+
 
 				//B) WALKER
 				x += v*cos(phi);
@@ -264,6 +259,9 @@ int main(){
 				printf("param = %f\ttrial = %u\tout = %4.3f\tmean = %4.3f\tstd = %4.3f\tskew = %4.3f\tturn = %4.3f\n", w_11, trial, o_avg.back(), mean(o_avg), stdev(o_avg), skew(histo, bin_size, T_end), turn_rate/T_end);
 			bifurw << w_11 << " " << o_avg.back() << std::endl;
 		}
+		for(unsigned int i = 0; i < num_bins; i++)
+			hist3d << histo[i]/500. << " ";
+		hist3d << std::endl;
 		w_11 += param_width;
 	}
 	for(unsigned int i = 0; i < num_bins; i++)

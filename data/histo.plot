@@ -2,8 +2,8 @@ reset
 set term png
 set output "histogram.png"
 
-T = 1000000
-BINS = 1000
+T = 20000
+BINS = 100
 
 set xlabel "State"
 set ylabel "Probability"
