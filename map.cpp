@@ -190,7 +190,6 @@ void reset_param(){
 	generator.seed(rseed);
 	a_1 = 0.;
 	a_2 = 0.;
-	a_3 = 0.;
 	o_1 = distribution(generator);
 	o_2 = distribution(generator);
 	o_avg.resize(0);
@@ -201,7 +200,7 @@ void reset_param(){
 	turn_rate = 0.0;
 	double rand_angle = 2. * M_PI * distribution(generator) - M_PI;
 	phi = bound(rand_angle);
-	printf("Init\to_1 = %f\to_2 = %f\to_3 = %f\n", o_1, o_2, o_3);
+	printf("Init\to_1 = %f\to_2 = %f\to_3 = %f\n", o_1, o_2);
 }
 
 int main(){
