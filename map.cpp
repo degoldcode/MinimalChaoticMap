@@ -193,8 +193,6 @@ void reset_param(){
 	a_3 = 0.;
 	o_1 = distribution(generator);
 	o_2 = distribution(generator);
-<<<<<<< HEAD
-	o_3 = 0.;
 	o_avg.resize(0);
 	o_avg.push_back(0.5 * (o_1 + o_2));
 	histo.resize(num_bins);
