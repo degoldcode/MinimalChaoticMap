@@ -15,13 +15,13 @@
 #include <cassert>
 
 //*** Simulation variables & streams ***//
-
 const int T_end = 50000;
 const int trials = 1;
 const double param_start = -18.0;
 const double param_end = -18.0;
 double param_val = param_start;
 const double param_width = 0.01;
+
 
 int param = 0;
 int part;
@@ -93,6 +93,9 @@ const int goals = 100;
 const double radius = 0.0;
 std::vector<double> gx;
 std::vector<double> gy;
+double temp_r;
+double temp_phi;
+
 
 
 //*** Functions ***//
@@ -199,7 +202,8 @@ void reset_param(){
 	gx.resize(goals);
 	gy.resize(goals);
 	for (int i = 0; i < goals; i++) {
-		gx.at(i) =
+		gx.at(i) = distribution(generator);
+		gy.at(i) = distribution(generator);
 	}
 	o_avg.resize(0);
 	o_avg.push_back(0.5 * (o_1 + o_2));
