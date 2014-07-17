@@ -16,7 +16,7 @@ using namespace std;
 
 Map::Map(double param)
 {
-	write.open("./data/map.dat");
+	stream.open("./data/map.dat", ios_base::out);
 	pasemann = true;
 	a_1 = 0.;
 	a_2 = 0.;
@@ -28,12 +28,13 @@ Map::Map(double param)
 	b_1 = 0.;
 	b_2 = 0.;
 	set_weight(pasemann, param);
-	//seed = time(NULL);
+
+	param_map = param;
 }
 
 Map::~Map()
 {
-	write.close();
+	stream.close();
 }
 
 double Map::update_map()
@@ -44,7 +45,8 @@ double Map::update_map()
 	o_2 = sigm(a_2);
 	out_old = out;
 	out = 0.5 * (o_1 + o_2); //average output
-	write << out_old << "\t" << out << endl;
+	if(!no_write)
+		stream << out_old << "\t" << out << endl;
 	return out;
 }
 
@@ -86,18 +88,5 @@ double Map::rand(double min, double max){
 	static uniform_real_distribution<double> d(min, max);
 	return d(e);
 }
-
-//int main(){
-//	clock_t begin = clock();
-//	Map* map = new Map(1.0);
-//	for(int i = 0; i < 10000000; i++){
-//		//cout << map->o_1 << "\t" << map->o_2 << endl;
-//		map->reset();
-//	}
-//	clock_t end = clock();
-//	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-//	cout << elapsed_secs << " secs. Done." << endl;
-//	delete map;
-//}
 
 

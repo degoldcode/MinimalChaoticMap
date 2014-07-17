@@ -7,9 +7,9 @@
 
 #include <cmath>
 #include "walker.h"
+using namespace std;
 
 Walker::Walker(){
-	//*** Walker variables ***//
 	x = 0.;
 	y = 0.;
 	phi = 0.;
@@ -17,10 +17,12 @@ Walker::Walker(){
 	k_phi = 4.;
 	dphi = 0.0;
 	abs_dphi = 0.0;
+	no_write = false;
+	stream.open("./data/walker.dat", ios_base::out | ios_base::app);
 }
 
 Walker::~Walker(){
-
+	stream.close();
 }
 
 double Walker::bound_angle(double phi){
@@ -34,10 +36,12 @@ double Walker::bound_angle(double phi){
 }
 
 void Walker::update(double command){
-	x += v*cos(phi);
-	y += v*sin(phi);
-	dphi = k_phi * (2.*command - 1.);
+	dphi = k_phi * command;
 	phi += dphi;
 	phi = bound_angle(phi);
 	abs_dphi = std::abs(dphi);
+	x += v*cos(phi);
+	y += v*sin(phi);
+	if(!no_write)
+		stream << x << "\t" << y << "\t" << phi << "\t" << dphi << endl;
 }

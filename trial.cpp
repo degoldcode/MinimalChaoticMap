@@ -5,15 +5,16 @@
  *      Author: meicron
  */
 
-#include "environment.h"
-#include "stream.h"
-#include "map.h"
+#include <cmath>
+#include <cstdlib>
+#include <iostream>
 #include "trial.h"
 using namespace std;
 
 const int walkers = 1;
-const int goals = 100;
-const double m_radius = 100.;
+const double m_radius = 500.;
+const double density = 0.0001;
+const int goals = int(density * (M_PI * m_radius * m_radius));
 
 Trial::Trial(Map* inmap){
 	environment = new Environment(walkers, goals, m_radius);
@@ -23,47 +24,32 @@ Trial::Trial(Map* inmap){
 	prob.clear();
 	turn_rate.clear();
 	abs_turn_rate.clear();
-
+	success = 0;
 	add_streams();
+	factor = 0.4;
 }
 
 Trial::~Trial() {
+	stream.close();
 	delete environment;
 }
 
 void Trial::add_streams(){
+	//stream.open("./data/walker.dat", ios_base::out);
+	//stream.close();
+	stream.open("./data/trial_bifur.dat", ios_base::out);
 }
 
 void Trial::run(int time){
 	map->reset();
 	for(unsigned int ts = 0; ts < time; ts++){
-		update();
+		update(ts);
 	}
+	stream << map->param_map << "\t" << map->out << "\t" << success << endl;
 }
 
-void Trial::update(){
-	double command = map->update_map();
+void Trial::update(int ts){
+	double command = factor * (2.*map->update_map() - 1.);
 	state.push_back(command);
 	environment->update(command);
-
-	for(unsigned int i = 0; i < stream_list.size(); i++)
-		stream_list.at(i)->write_data();
-}
-
-void Trial::print_data(){
-	for(unsigned int i = 0; i < stream_list.size(); i++)
-		stream_list.at(i)->print_data();
-}
-
-int main(){
-	clock_t begin = clock();
-	Map* map = new Map(1.0);
-	Trial* trial = new Trial(map);
-	for(int tr = 0; tr < 100; tr++)
-		trial->run(1000);
-	clock_t end = clock();
-	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-	cout << elapsed_secs << " secs. Done." << endl;
-	delete map;
-	delete trial;
 }

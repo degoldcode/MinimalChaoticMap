@@ -11,8 +11,9 @@
 using namespace std;
 
 Goal::Goal(double max_radius){
-	distance_to_origin = rand(0.0, max_radius);
-	angle_to_x_axis = rand(-M_PI, M_PI);
+	distance_to_origin = max_radius * sqrt(rand(0.0, 1.0));
+	angle_to_x_axis = 2 * M_PI * rand(0.0, 1.0);
+
 	x_position = distance_to_origin * cos(angle_to_x_axis);
 	y_position = distance_to_origin * sin(angle_to_x_axis);
 	hit = 0;
@@ -26,7 +27,7 @@ void Goal::check_hit(double x, double y){
 	double rxsqr = pow(x-x_position, 2.);
 	double rysqr = pow(y-y_position, 2.);
 	double rdist = sqrt(rxsqr+rysqr);
-	if(rdist < 0.2) //20 cm
+	if(rdist < 0.2) //20 cm radius
 		hit++;
 }
 

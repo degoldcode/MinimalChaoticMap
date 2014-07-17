@@ -8,6 +8,10 @@
 #ifndef WALKER_H_
 #define WALKER_H_
 
+#include <iostream>
+#include <fstream>
+using namespace std;
+
 class Walker {
 public:
 	Walker();
@@ -23,6 +27,9 @@ public:
 	double k_phi;
 	double dphi;
 	double abs_dphi;
+
+	ofstream stream;
+	bool no_write;
 };
 
 

@@ -9,9 +9,11 @@
 #define SIMULATION_H_
 
 #include <vector>
-#include "stream.h"
+#include <iostream>
+#include <fstream>
+#include "map.h"
 #include "trial.h"
-
+using namespace std;
 
 class Simulation {
 public:
@@ -19,14 +21,13 @@ public:
 	~Simulation();
 
 	void run(int trials, int time);
-	void update();
-	void print_data();
 	double avg(vector<double> input);
 	double stdev(vector<double> input);
 
+	double success_rate;
 	Trial* trial;
-	vector<Stream*> stream_list;
 	Map* map;
+	ofstream stream;
 };
 
 

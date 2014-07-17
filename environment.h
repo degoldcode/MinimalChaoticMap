@@ -11,6 +11,9 @@
 #include "walker.h"
 #include "goal.h"
 #include <vector>
+#include <iostream>
+#include <fstream>
+using namespace std;
 
 class Environment {
 public:
@@ -18,8 +21,11 @@ public:
 	~Environment();
 
 	void update(double command);
+	int get_hits();
 	std::vector<Walker*> walker_list;
 	std::vector<Goal*> goal_list;
+
+	ofstream stream;
 };
 
 

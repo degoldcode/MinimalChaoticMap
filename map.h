@@ -40,8 +40,10 @@ public:
 	double w_21;
 	double b_1;
 	double b_2;
+	double param_map;
 
-	ofstream write;
+	ofstream stream;
+	bool no_write;
 	int seed;
 };
 

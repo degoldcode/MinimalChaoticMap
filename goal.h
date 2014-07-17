@@ -8,6 +8,8 @@
 #ifndef GOAL_H_
 #define GOAL_H_
 
+using namespace std;
+
 class Goal {
 public:
 	Goal(double max_radius);

@@ -8,6 +8,10 @@
 #ifndef TRIAL_H_
 #define TRIAL_H_
 
+#include <iostream>
+#include <fstream>
+#include "environment.h"
+#include "map.h"
 using namespace std;
 
 class Environment;
@@ -20,8 +24,7 @@ public:
 	~Trial();
 
 	void run(int time);
-	void update();
-	void print_data();
+	void update(int ts);
 	void add_streams();
 	double avg(vector<double> input);
 	double stdev(vector<double> input);
@@ -31,10 +34,13 @@ public:
 	vector<double> prob;
 	vector<double> turn_rate;
 	vector<double> abs_turn_rate;
+	int success;
+	double factor;
 
 	Environment* environment;
-	vector<Stream*> stream_list;
 	Map* map;
+
+	ofstream stream;
 };
 
 
