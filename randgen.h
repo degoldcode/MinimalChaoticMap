@@ -5,13 +5,14 @@
  *      Author: degoldschmidt
  */
 
+#include <ctime>
 #include <random>
 using namespace std;
 
 #ifndef RANDGEN_H_
 #define RANDGEN_H_
 
-class RandomGenerator {
+class RandGen {
 private:
     // Types
     typedef mt19937									Engine;
@@ -20,9 +21,21 @@ private:
 
     // To hold the generator
     Generator* _gen;
+
 public:
-	RandomGenerator();
-	~RandomGenerator();
+	RandGen( double minVal, double maxVal )
+	{
+		rseed = time(NULL);
+		_gen = new Generator( Engine( rseed ), Distribution( minVal, maxVal ) );
+	}
+	~RandGen()
+	{
+	        delete _gen;
+	}
+    double next()
+    {
+        return (*_gen)();
+    }
 
 	int rseed;
 };
