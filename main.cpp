@@ -101,11 +101,6 @@ int main(){
 	paramw.close();
 }
 
-//*** Random generator for initial values ***//
-int rseed = time(NULL);
-std::default_random_engine generator(rseed);
-std::uniform_real_distribution<double> distribution(0.0,1.0);
-
 //*** Simulation variables & streams ***//
 const int T_end = 50000;
 const int trials = 1;

@@ -11,7 +11,6 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cmath>
-#include <random>
 
 #ifndef MAP_H_
 #define MAP_H_
