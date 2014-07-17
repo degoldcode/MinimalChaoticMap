@@ -119,7 +119,6 @@ void Map::set_weight(bool option, double param){
 	w_11 = param;
 }
 
-Map* map;
 
 //*** Histogram variables ***//
 const int num_bins = 100;
