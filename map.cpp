@@ -10,8 +10,6 @@
 #include <cassert>
 #include "map.h"
 
-
-
 int main(){
 	bifurw.open("./data/pscan.dat");
 	histw.open("./data/histo.dat");
