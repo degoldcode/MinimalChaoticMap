@@ -41,12 +41,3 @@ void Walker::update_walker(double command){
 	phi = bound_angle(phi);
 	abs_dphi = std::abs(dphi);
 }
-
-
-//*** Goal variables ***//
-const int goals = 100;
-const double radius = 0.0;
-std::vector<double> gx;
-std::vector<double> gy;
-double temp_r;
-double temp_phi;

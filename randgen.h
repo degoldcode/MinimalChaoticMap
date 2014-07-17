@@ -34,6 +34,7 @@ public:
 	}
     double next()
     {
+    	rseed++;
         return (*_gen)();
     }
 
