@@ -6,25 +6,20 @@
  */
 
 #include <cmath>
+#include <random>
 #include "goal.h"
 using namespace std;
 
 Goal::Goal(double max_radius){
-	rg_rad = new RandGen(0.0, max_radius);
-	rg_angle = new RandGen(-M_PI, M_PI);
-
-	distance_to_origin = rg_rad->next();
-	angle_to_x_axis = rg_angle->next();
-
+	distance_to_origin = rand(0.0, max_radius);
+	angle_to_x_axis = rand(-M_PI, M_PI);
 	x_position = distance_to_origin * cos(angle_to_x_axis);
 	y_position = distance_to_origin * sin(angle_to_x_axis);
-
 	hit = 0;
 }
 
 Goal::~Goal(){
-	delete rg_rad;
-	delete rg_angle;
+
 }
 
 void Goal::check_hit(double x, double y){
@@ -33,4 +28,10 @@ void Goal::check_hit(double x, double y){
 	double rdist = sqrt(rxsqr+rysqr);
 	if(rdist < 0.2) //20 cm
 		hit++;
+}
+
+double Goal::rand(double min, double max){
+	static random_device e{};
+	static uniform_real_distribution<double> d(min, max);
+	return d(e);
 }

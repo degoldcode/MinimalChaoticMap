@@ -5,6 +5,7 @@
  *      Author: degoldschmidt
  */
 
+
 #include "environment.h"
 
 Environment::Environment(double num_walkers, double num_goals, double max_radius){
@@ -28,8 +29,8 @@ Environment::~Environment(){
 void Environment::update(double command){
 	for(unsigned int i = 0; i < walker_list.size(); i++){
 		walker_list.at(i)->update(command);
-		for(unsigned int i = 0; i < goal_list.size(); i++)
-			goal_list.at(i)->check_hit(walker_list.at(i)->x, walker_list.at(i)->y);
+		for(unsigned int j = 0; j < goal_list.size(); j++)
+			goal_list.at(j)->check_hit(walker_list.at(i)->x, walker_list.at(i)->y);
 	}
 }
 

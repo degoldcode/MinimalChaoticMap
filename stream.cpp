@@ -6,7 +6,7 @@
  */
 
 #include <sstream>
-#include <iotream>
+#include <iostream>
 #include <fstream>
 #include "stream.h"
 using namespace std;
@@ -15,7 +15,7 @@ Stream::Stream(string name)
 {
 	stream_name = name;
 	stringstream ss;
-	ss << stream_name << ".dat";
+	ss << "./data/" << stream_name << ".dat";
 	stream.open(stream_name.c_str());
 }
 

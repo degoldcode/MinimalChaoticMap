@@ -7,6 +7,7 @@
 
 #include <vector>
 #include "simulation.h"
+#include "trial.h"
 using namespace std;
 
 const int walkers = 1;
@@ -23,6 +24,15 @@ Simulation::~Simulation() {
 	delete map;
 }
 
+void Simulation::run(int trials, int time){
+	for(unsigned int trial = 0; trial < trials; trial++){
+		start_trial();
+		for(unsigned int ts = 0; ts < time; ts++){
+			update();
+		}
+		end_trial();
+	}
+}
 
 void Simulation::update(){
 	double command = map->update_map();

@@ -9,23 +9,22 @@
 #define SIMULATION_H_
 
 #include <vector>
-#include "environment.h"
 #include "stream.h"
-#include "map.h"
+#include "trial.h"
 
-class Environment;
-class Walker;
-class Map;
 
 class Simulation {
 public:
 	Simulation(double param);
 	~Simulation();
 
+	void run(int trials, int time);
 	void update();
 	void print_data();
+	double avg(vector<double> input);
+	double stdev(vector<double> input);
 
-	Environment* environment;
+	Trial* trial;
 	vector<Stream*> stream_list;
 	Map* map;
 };

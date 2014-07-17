@@ -8,9 +8,9 @@
 #ifndef ENVIRONMENT_H_
 #define ENVIRONMENT_H_
 
-#include <vector>
 #include "walker.h"
 #include "goal.h"
+#include <vector>
 
 class Environment {
 public:
@@ -18,7 +18,6 @@ public:
 	~Environment();
 
 	void update(double command);
-private:
 	std::vector<Walker*> walker_list;
 	std::vector<Goal*> goal_list;
 };
