@@ -6,16 +6,19 @@
  */
 
 #include <ctime>
+#include <cmath>
 #include <vector>
 #include <cassert>
 
+
 Map::Map(double param)
 {
+	rg = new RandGen(0.0, 1.0);
 	pasemann = true;
 	a_1 = 0.;
 	a_2 = 0.;
-	o_1 = distribution(generator);
-	o_2 = distribution(generator);
+	o_1 = rg->next();
+	o_2 = rg->next();
 	w_11 = 0.;
 	w_12 = 0.;
 	w_21 = 0.;

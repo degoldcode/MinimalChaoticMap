@@ -11,6 +11,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cmath>
+#include "randgen.h"
 
 #ifndef MAP_H_
 #define MAP_H_
@@ -36,6 +37,8 @@ public:
 	double w_21;
 	double b_1;
 	double b_2;
+
+	RandGen* rg;
 };
 
 #endif /* MAP_H_ */

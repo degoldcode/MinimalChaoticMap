@@ -15,9 +15,7 @@
 #include <cmath>
 #include <random>
 #include "map.cpp"
-#include "randgen.cpp"
-
-#include "map.h"
+#include "randgen.h"
 
 Map* map;
 
@@ -47,12 +45,7 @@ int main(){
 
 
 				//B) WALKER
-				x += v*cos(phi);
-				y += v*sin(phi);
-				phi += k_phi * (2.*map->o_avg.back() - 1.);
-				phi = bound(phi);
-				turn_rate += k_phi * (2.*map->o_avg.back() - 1.);
-				abs_turn_rate += std::abs(k_phi * (2.*map->o_avg.back() - 1.));
+
 				//printf("ts = %4u\to = %1.6f\tphi = %2.2f\n", ts, o_avg, phi);
 				pos << ts << " " << x << " " << y << " " << phi << " " <<  k_phi * (2.*map->o_avg.back() - 1.)<< std::endl;
 
@@ -131,33 +124,9 @@ double temp_entr;
 double prob;
 double prob_sum = 1.;
 
-//*** Walker variables ***//
-double x = 0.;
-double y = 0.;
-double phi = 0.;
-double v = 0.1;
-double k_phi = 4.;
-double turn_rate;
-double abs_turn_rate;
 
-//*** Goal variables ***//
-const int goals = 100;
-const double radius = 0.0;
-std::vector<double> gx;
-std::vector<double> gy;
-double temp_r;
-double temp_phi;
 
 //*** Functions ***//
-double bound(double phi){
-	double rphi;
-	rphi = phi;
-	while(rphi > M_PI)
-		rphi -= 2 * M_PI;
-	while(rphi < - M_PI)
-		rphi += 2 * M_PI;
-	return rphi;
-}
 
 double thres(double x){
 	if(x >= 0.)
