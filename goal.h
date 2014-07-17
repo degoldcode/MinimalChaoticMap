@@ -23,7 +23,8 @@ public:
 	RandGen* rg_rad;
 	RandGen* rg_angle;
 
-	bool hit;
+	void check_hit(double x, double y);
+	int hit;
 };
 
 

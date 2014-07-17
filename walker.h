@@ -14,7 +14,7 @@ public:
 	~Walker();
 
 	double bound_angle(double angle);
-	void update_walker(double command);
+	void update(double command);
 
 	double x;
 	double y;

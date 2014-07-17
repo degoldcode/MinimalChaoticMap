@@ -33,7 +33,7 @@ double Walker::bound_angle(double phi){
 	return rphi;
 }
 
-void Walker::update_walker(double command){
+void Walker::update(double command){
 	x += v*cos(phi);
 	y += v*sin(phi);
 	dphi = k_phi * (2.*command - 1.);
